@@ -32,7 +32,16 @@ async function run() {
 
     const spotsCollection = client.db("touristSpotsManagementDB").collection("spots")
 
-    
+    app.post("/spots", async (req, res) => {
+        const newSpots = req.body;
+        const result = await spotsCollection.insertOne(newSpots);
+        res.json(result);
+    })
+    app.get("/spots", async (req, res) => {
+        const cursor = spotsCollection.find();
+        const result = await cursor.toArray();
+        res.json(result);
+    })
 
 
     // Send a ping to confirm a successful connection
