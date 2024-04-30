@@ -66,10 +66,9 @@ async function run() {
       res.json(result);
     })
 
-    app.get("/spot/:selectedCountry", async (req, res) => {
-      const selectedCountry = req.params.selectedCountry;
-      console.log(selectedCountry);
-      const result = await spotsCollection.find({ selectedCountry: selectedCountry }).toArray();
+    app.get("/spotsByCountry/:country", async (req, res) => {
+      const country = req.params.country;
+      const result = await spotsCollection.find({ selectedCountry: country }).toArray();
       res.json(result);
     })
 
@@ -78,17 +77,17 @@ async function run() {
       console.log(id);
       const filter = { _id: new ObjectId(id)};
       const options = { upsert: true };
+      const updatedSpot = req.body
       const updateDoc = {
         $set: {
-          imageURL:req.body.imageURL,
-          touristsSpotName:req.body.touristsSpotName,
-          location:req.body.location,
-          shortDescription:req.body.shortDescription,
-          averageCos:req.body.averageCos,
-          seasonality:req.body.seasonality,
-          travelTime:req.body.travelTime,
-          totalVisitorsPerYear:req.body.totalVisitorsPerYear,
-          averageCos:req.body.averageCos,
+          imageURL:updatedSpot.imageURL,
+          touristsSpotName:updatedSpot.touristsSpotName,
+          location:updatedSpot.location,
+          shortDescription:updatedSpot.shortDescription,
+          averageCost:updatedSpot.averageCost,
+          seasonality:updatedSpot.seasonality,
+          travelTime:updatedSpot.travelTime,
+          totalVisitorsPerYear:updatedSpot.totalVisitorsPerYear,
         },
       };
       console.log(updateDoc);
